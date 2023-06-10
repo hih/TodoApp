@@ -10,6 +10,7 @@ namespace TodoApp.Data
             : base(options)
         {
         }
+
         public DbSet<TodoApp.Models.Task>? Task { get; set; }
     }
 }

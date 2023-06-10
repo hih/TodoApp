@@ -58,6 +58,8 @@ namespace TodoApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Title,Description,Tags,CreatedDate,UpdatedDate")] Models.Task task)
         {
+            task.CreatedDate = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 _context.Add(task);
@@ -94,6 +96,11 @@ namespace TodoApp.Controllers
             {
                 return NotFound();
             }
+
+            var currentCreatedDate = _context.Task.Where(x => x.ID == task.ID).Select(x => x.CreatedDate).FirstOrDefault();
+            
+            if (currentCreatedDate != null)
+                task.CreatedDate = currentCreatedDate;
 
             if (ModelState.IsValid)
             {
